@@ -1,0 +1,6 @@
+{
+  "name": "Secure Electronic Voting System",
+  "description": "A web-based electronic voting system with voter verification, blockchain audit logs, and election coordination dashboards.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
