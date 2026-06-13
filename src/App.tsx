@@ -306,12 +306,12 @@ export default function App() {
           
           {/* Logo Brand seal */}
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white border border-blue-700 shadow-md shadow-blue-500/10">
-              <Vote className="w-5 h-5 animate-pulse" />
+            <div className="w-12 h-12 rounded-xl bg-blue-600 flex items-center justify-center text-white border border-blue-700 shadow-md shadow-blue-500/10 shrink-0">
+              <Vote className="w-6 h-6 animate-pulse" />
             </div>
             <div>
-              <h1 className={`text-md font-bold tracking-tight font-sans transition-colors ${themeMode === 'dark' ? 'text-white' : 'text-slate-900'}`}>University Electoral Commission</h1>
-              <p className={`text-[10px] font-bold uppercase tracking-widest font-mono transition-colors ${themeMode === 'dark' ? 'text-slate-400' : 'text-slate-500'}`}>Secure Electronic Ballot</p>
+              <h1 className={`text-xl md:text-2xl font-black tracking-tight font-sans transition-colors ${themeMode === 'dark' ? 'text-white' : 'text-slate-900'}`}>University Electoral Commission</h1>
+              <p className={`text-[10px] sm:text-xs font-bold uppercase tracking-widest font-mono transition-colors ${themeMode === 'dark' ? 'text-slate-400' : 'text-slate-500'}`}>Secure Electronic Ballot</p>
             </div>
           </div>
 
@@ -319,10 +319,10 @@ export default function App() {
           <nav className="hidden lg:flex items-center gap-1">
             <button
               onClick={() => { setActivePortal('launchpad'); setEcStaffMode('login'); }}
-              className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+              className={`px-4 py-2 rounded-xl text-base font-bold transition-all cursor-pointer ${
                 activePortal === 'launchpad' 
                   ? (themeMode === 'dark' ? 'bg-slate-800 text-white font-bold' : 'bg-slate-100 text-slate-900 font-bold') 
-                  : (themeMode === 'dark' ? 'text-slate-300 hover:text-white' : 'text-slate-600 hover:text-slate-900')
+                  : (themeMode === 'dark' ? 'text-slate-300 hover:text-blue-400' : 'text-slate-600 hover:text-blue-600')
               }`}
             >
               Portal Launchpad
@@ -330,10 +330,10 @@ export default function App() {
             
             <button
               onClick={() => setActivePortal('dashboard')}
-              className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer flex items-center gap-1.5 ${
+              className={`px-4 py-2 rounded-xl text-base font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
                 activePortal === 'dashboard'
                   ? (themeMode === 'dark' ? 'bg-slate-800 text-white font-bold' : 'bg-slate-100 text-slate-900 font-bold')
-                  : (themeMode === 'dark' ? 'text-slate-300 hover:text-white' : 'text-slate-600 hover:text-slate-900')
+                  : (themeMode === 'dark' ? 'text-slate-300 hover:text-blue-400' : 'text-slate-600 hover:text-blue-600')
               }`}
             >
               Live Analytics Results
@@ -348,7 +348,7 @@ export default function App() {
             {currentUser && currentUser.role === 'voter' && (
               <button
                 onClick={() => setActivePortal('voter')}
-                className={`px-4 py-2 rounded-xl text-xs font-bold border transition-colors ${
+                className={`px-4 py-2 rounded-xl text-base font-bold border transition-colors ${
                   themeMode === 'dark' ? 'bg-blue-950/40 text-blue-300 border-blue-900/50' : 'bg-blue-50 text-blue-700 border-blue-100'
                 }`}
               >
@@ -359,7 +359,7 @@ export default function App() {
             {currentUser && (currentUser.role === 'admin' || currentUser.role === 'officer') && (
               <button
                 onClick={() => setActivePortal('ec_staff')}
-                className={`px-4 py-2 rounded-xl text-xs font-bold border transition-colors ${
+                className={`px-4 py-2 rounded-xl text-base font-bold border transition-colors ${
                   themeMode === 'dark' ? 'bg-indigo-950/40 text-indigo-300 border-indigo-900/50' : 'bg-indigo-50 text-indigo-700 border-indigo-100'
                 }`}
               >
@@ -440,14 +440,14 @@ export default function App() {
         }`}>
           <button
             onClick={() => { setActivePortal('launchpad'); setMobileMenuOpen(false); }}
-            className={`block w-full text-left py-2 text-xs font-semibold ${themeMode === 'dark' ? 'text-slate-200 hover:text-white' : 'text-slate-700 hover:text-slate-900'}`}
+            className={`block w-full text-left py-2 text-base font-bold transition-colors ${themeMode === 'dark' ? 'text-slate-200 hover:text-blue-400' : 'text-slate-700 hover:text-blue-600'}`}
           >
             Portal Launchpad
           </button>
           <button
             onClick={() => { setActivePortal('dashboard'); setMobileMenuOpen(false); }}
-            className={`w-full text-left py-2 text-xs font-semibold flex items-center justify-between ${
-              themeMode === 'dark' ? 'text-slate-200 hover:text-white' : 'text-slate-700 hover:text-slate-900'
+            className={`w-full text-left py-2 text-base font-bold flex items-center justify-between transition-colors ${
+              themeMode === 'dark' ? 'text-slate-200 hover:text-blue-400' : 'text-slate-700 hover:text-blue-600'
             }`}
           >
             <span>Live Analytics Results</span>
