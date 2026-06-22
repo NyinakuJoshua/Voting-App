@@ -160,8 +160,8 @@ export default function VoterPanel({
       return;
     }
 
-    if (matchedUser.role !== 'voter') {
-      setAuthError('Access Denied: This portal is for students/voters only.');
+    if (matchedUser.role !== 'voter' && matchedUser.role !== 'admin') {
+      setAuthError('Access Denied: This portal is for voters and administrators only.');
       return;
     }
 
@@ -178,7 +178,7 @@ export default function VoterPanel({
     const log = createLog(
       matchedUser.id,
       matchedUser.name,
-      'Voter',
+      matchedUser.role === 'admin' ? 'Administrator' : 'Voter',
       `Login attempt verified. Verification OTP dispatched via secure academic gateway to ${matchedUser.email}`,
       'success'
     );
@@ -200,7 +200,7 @@ export default function VoterPanel({
       const log = createLog(
         currentUser.id,
         currentUser.name,
-        'Voter',
+        currentUser.role === 'admin' ? 'Administrator' : 'Voter',
         'OTP Two-Factor authentication successfully complete',
         'success'
       );
@@ -223,7 +223,7 @@ export default function VoterPanel({
         const log = createLog(
           currentUser.id,
           currentUser.name,
-          'Voter',
+          currentUser.role === 'admin' ? 'Administrator' : 'Voter',
           `Biometric multi-factor authentication (${bioType === 'face' ? 'Facial Geometry Scan' : 'SHA Fingerprint Scan'}) securely verified. Matching confidence 99.8%`,
           'success'
         );
@@ -374,7 +374,7 @@ export default function VoterPanel({
       createLog(
         currentUser!.id,
         currentUser!.name,
-        'Voter',
+        currentUser!.role === 'admin' ? 'Administrator' : 'Voter',
         `Completed voting suite successfully for: ${selectedElection!.title}. Ballot closed.`,
         'success'
       )
@@ -423,12 +423,22 @@ export default function VoterPanel({
           <div className="absolute inset-0 bg-slate-950/70 backdrop-blur-[2px] z-0" />
           
           <div id="voter-login-card" className="relative z-10 w-full max-w-md bg-white border border-slate-100 rounded-2xl shadow-sm p-8">
-          <div className="text-center mb-8">
+          <div className="text-center mb-6">
             <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-blue-50 text-blue-600 mb-4 border border-blue-100">
               <KeyRound className="w-6 h-6 animate-pulse" />
             </div>
-            <h2 className="text-2xl font-semibold tracking-tight text-slate-900 font-sans">Student Authentication</h2>
-            <p className="text-sm text-slate-500 mt-2">Sign in using your administrative credentials or registered student ID to join the ballot gate.</p>
+            <h2 className="text-2xl font-semibold tracking-tight text-slate-900 font-sans">Electoral Gate Authentication</h2>
+            <p className="text-xs text-slate-500 mt-2">Sign in using your student ID or administrator credentials to request a ballot envelope. Each user is constrained strictly to one ballot submission per active election.</p>
+          </div>
+
+          <div className="mb-6 p-3 bg-blue-50/70 border border-blue-100 rounded-xl text-[11px] text-blue-800 space-y-1.5">
+            <p className="font-bold flex items-center gap-1.5 text-blue-900">
+              <ShieldCheck className="w-3.5 h-3.5 text-blue-600" /> Secure Ballot Integrity Enforcement:
+            </p>
+            <ul className="list-disc list-inside space-y-0.5 text-blue-705">
+              <li><strong>Students:</strong> Cannot vote again in any active election after casting a ballot unless the election concludes.</li>
+              <li><strong>Administrators:</strong> Permitted to test and cast a real vote, but are strictly locked from re-voting once complete.</li>
+            </ul>
           </div>
 
           <form onSubmit={handleCredentialsSubmit} className="space-y-5">

@@ -345,7 +345,7 @@ export default function App() {
             </button>
 
             {/* If signed in, show dashboard context */}
-            {currentUser && currentUser.role === 'voter' && (
+            {currentUser && (currentUser.role === 'voter' || currentUser.role === 'admin') && (
               <button
                 onClick={() => setActivePortal('voter')}
                 className={`px-4 py-2 rounded-xl text-base font-bold border transition-colors ${
@@ -494,10 +494,10 @@ export default function App() {
                   <ShieldCheck className="w-3.5 h-3.5" /> High-Conformity Voter Ledger Secure
                 </span>
                 <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-white font-sans mt-5">
-                  Secure University Students Electronic Voting Gateway
+                  Secure Student Body Elections Portal
                 </h2>
-                <p className="text-sm text-slate-300 mt-3 leading-relaxed">
-                  Welcome to the student body elections portal. Complete credentials login, satisfy OTP dual-factor SMS/email parameters, pass biometric geometry overrides, and deposit blocks cryptographically to compile the student Senate.
+                <p className="text-sm text-slate-200 mt-3 leading-relaxed">
+                  Welcome to the student body elections portal.
                 </p>
               </div>
 
