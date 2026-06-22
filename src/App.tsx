@@ -336,7 +336,7 @@ export default function App() {
                   : (themeMode === 'dark' ? 'text-slate-300 hover:text-blue-400' : 'text-slate-600 hover:text-blue-600')
               }`}
             >
-              Live Analytics Results
+              Live Results
               {currentUser && (currentUser.role === 'admin' || currentUser.role === 'officer') ? (
                 <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block animate-pulse" />
               ) : (
@@ -344,17 +344,7 @@ export default function App() {
               )}
             </button>
 
-            {/* If signed in, show dashboard context */}
-            {currentUser && (currentUser.role === 'voter' || currentUser.role === 'admin') && (
-              <button
-                onClick={() => setActivePortal('voter')}
-                className={`px-4 py-2 rounded-xl text-base font-bold border transition-colors ${
-                  themeMode === 'dark' ? 'bg-blue-950/40 text-blue-300 border-blue-900/50' : 'bg-blue-50 text-blue-700 border-blue-100'
-                }`}
-              >
-                Access My Ballot
-              </button>
-            )}
+            
 
             {currentUser && (currentUser.role === 'admin' || currentUser.role === 'officer') && (
               <button
@@ -363,7 +353,7 @@ export default function App() {
                   themeMode === 'dark' ? 'bg-indigo-950/40 text-indigo-300 border-indigo-900/50' : 'bg-indigo-50 text-indigo-700 border-indigo-100'
                 }`}
               >
-                EC Staff Console
+                EC Staff
               </button>
             )}
           </nav>
@@ -499,7 +489,21 @@ export default function App() {
                 <p className="text-sm text-slate-200 mt-3 leading-relaxed">
                   Welcome to the student body elections portal.
                 </p>
+                {/* Compact, highly visible Vote Here button placed at the top */}
+                {currentUser && (currentUser.role === 'voter' || currentUser.role === 'admin') && (
+                  <div className="mt-5 flex justify-center">
+                    <button
+                      onClick={() => setActivePortal('voter')}
+                      className="px-4 py-1.5 rounded-lg text-xs font-extrabold bg-blue-600 hover:bg-blue-500 text-white border border-blue-500 shadow-lg shadow-blue-500/20 transition-all cursor-pointer hover:scale-105 active:scale-95 flex items-center gap-1.5"
+                    >
+                      <span>Vote Here</span>
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block animate-pulse" />
+                    </button>
+                  </div>
+                )}
               </div>
+
+              {/* Spacing adjusted */}
 
               {/* Active Election Countdown Timer */}
               <div id="landing-countdown-container" className="px-4">

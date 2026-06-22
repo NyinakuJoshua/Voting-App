@@ -92,6 +92,7 @@ export default function AdminPanel({
   const [newElecTitle, setNewElecTitle] = useState('');
   const [newElecStart, setNewElecStart] = useState('');
   const [newElecEnd, setNewElecEnd] = useState('');
+  const [confirmDeleteElec, setConfirmDeleteElec] = useState<{ id: string; name: string } | null>(null);
 
   // New Position States
   const [selectedElecForPos, setSelectedElecForPos] = useState('');
@@ -452,20 +453,25 @@ export default function AdminPanel({
   };
 
   const deleteElec = (id: string, name: string) => {
-    if (window.confirm(`Warning: Are you sure you want to delete election "${name}"? This deletes all associated polls and votes.`)) {
-      onDeleteElection(id);
-      if (currentUser) {
-        onAddLogs([
-          createLog(
-            currentUser.id,
-            currentUser.name,
-            'Administrator',
-            `Deleted entire database matrix of Election ID: "${id}"`,
-            'danger'
-          )
-        ]);
-      }
+    setConfirmDeleteElec({ id, name });
+  };
+
+  const handleConfirmDeleteElec = () => {
+    if (!confirmDeleteElec) return;
+    const { id, name } = confirmDeleteElec;
+    onDeleteElection(id);
+    if (currentUser) {
+      onAddLogs([
+        createLog(
+          currentUser.id,
+          currentUser.name,
+          'Administrator',
+          `Deleted entire database matrix of Election "${name}" (ID: "${id}")`,
+          'danger'
+        )
+      ]);
     }
+    setConfirmDeleteElec(null);
   };
 
   // Export logs to structured CSV local mock helper!
@@ -1353,6 +1359,47 @@ export default function AdminPanel({
           </div>
         )}
       </div>
+
+      {/* Custom, Sandboxed-Safe Deletion Confirmation Modal */}
+      {confirmDeleteElec && (
+        <div className="fixed inset-0 z-[999] flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="w-full max-w-md bg-white dark:bg-slate-900 border border-slate-150 dark:border-slate-800 rounded-2xl shadow-xl p-6 overflow-hidden animate-in zoom-in-95 duration-150">
+            <div className="flex items-start gap-4">
+              <div className="p-3 bg-rose-50 dark:bg-rose-950/50 text-rose-600 dark:text-rose-400 rounded-full border border-rose-100 dark:border-rose-900">
+                <AlertCircle className="w-6 h-6 shrink-0" />
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-lg font-extrabold text-slate-900 dark:text-white font-sans">
+                  Permanently Delete Election?
+                </h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                  Warning: You are about to permanently delete the election <strong className="text-slate-900 dark:text-slate-100">"{confirmDeleteElec.name}"</strong>, including all of its associate portfolios, candidate profiles, and cast ledger ballots.
+                </p>
+                <div className="p-2.5 bg-rose-50/50 dark:bg-rose-950/20 border border-rose-100/50 dark:border-rose-900/40 rounded-xl text-[11px] text-rose-800 dark:text-rose-300">
+                  This transaction is authoritative and cannot be reversed or decrypted.
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-6 flex justify-end gap-3">
+              <button
+                type="button"
+                onClick={() => setConfirmDeleteElec(null)}
+                className="px-4 py-2 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-350 bg-white hover:bg-slate-50 dark:bg-slate-800 dark:hover:bg-slate-700 rounded-xl text-xs font-bold transition-all cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleConfirmDeleteElec}
+                className="px-4 py-2 bg-rose-600 hover:bg-rose-500 text-white rounded-xl text-xs font-extrabold transition-all cursor-pointer shadow-md shadow-rose-600/15"
+              >
+                Confirm Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
